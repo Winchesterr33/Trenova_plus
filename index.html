@@ -1,159 +1,206 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitPro +</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        header {
-            background-color: #4CAF50;
-            padding: 20px;
-            text-align: center;
-            color: white;
-        }
-        h1 {
-            margin: 0;
-        }
-        main {
-            max-width: 600px;
-            margin: 30px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            width: 100%;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .result {
-            background-color: #e7f5e6;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-        section {
-            margin-top: 30px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trenova+</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background-color: #4CAF50;
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+    h1 {
+      margin: 0;
+    }
+    main {
+      max-width: 650px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .result {
+      background-color: #e7f5e6;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+    section {
+      margin-top: 35px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: center;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>FitPro +</h1>
-    </header>
-    <main>
-        <h2>Калькулятор калорий и плана питания</h2>
-        <form id="calculatorForm">
-            <label>Возраст:</label>
-            <input type="number" id="age" required>
-            <label>Рост (см):</label>
-            <input type="number" id="height" required>
-            <label>Вес (кг):</label>
-            <input type="number" id="weight" required>
-            <label>Пол:</label>
-            <select id="sex">
-                <option value="м">Мужской</option>
-                <option value="ж">Женский</option>
-            </select>
-            <label>Активность:</label>
-            <select id="activity">
-                <option value="1">Минимальная</option>
-                <option value="2">Низкая</option>
-                <option value="3">Средняя</option>
-                <option value="4">Высокая</option>
-                <option value="5">Очень высокая</option>
-            </select>
-            <label>Цель:</label>
-            <select id="goal">
-                <option value="поддержание">Поддержание веса</option>
-                <option value="похудение">Похудение</option>
-                <option value="набор">Набор массы</option>
-            </select>
-            <button type="submit">Рассчитать</button>
-        </form>
-        <div class="result" id="result" style="display:none;"></div>
+  <header>
+    <h1>Trenova+</h1>
+    <p>Энергия. Тело. Результат.</p>
+  </header>
 
-        <section>
-            <h2>О проекте</h2>
-            <p>FitPro + — это простой и удобный калькулятор калорий и плана питания. Он поможет подобрать суточную норму калорий, соотношение белков, жиров и углеводов, а также даст рекомендации по питанию в зависимости от вашей цели — похудение, набор массы или поддержание веса. Всё работает прямо в браузере, без регистрации и оплаты.</p>
-        </section>
-    </main>
+  <main>
+    <h2>Калькулятор калорий и плана питания</h2>
+    <form id="calcForm">
+      <label>Возраст:</label>
+      <input type="number" id="age" required>
+      <label>Рост (см):</label>
+      <input type="number" id="height" required>
+      <label>Вес (кг):</label>
+      <input type="number" id="weight" required>
+      <label>Пол:</label>
+      <select id="sex">
+        <option value="м">Мужской</option>
+        <option value="ж">Женский</option>
+      </select>
+      <label>Активность:</label>
+      <select id="activity">
+        <option value="1">Минимальная</option>
+        <option value="2">Низкая</option>
+        <option value="3">Средняя</option>
+        <option value="4">Высокая</option>
+        <option value="5">Очень высокая</option>
+      </select>
+      <label>Цель:</label>
+      <select id="goal">
+        <option value="поддержание">Поддержание веса</option>
+        <option value="похудение">Похудение</option>
+        <option value="набор">Набор массы</option>
+      </select>
+      <button type="submit">Рассчитать</button>
+    </form>
+    <div class="result" id="result" style="display:none;"></div>
 
-    <script>
-        const form = document.getElementById('calculatorForm');
-        const resultDiv = document.getElementById('result');
+    <section>
+      <h2>Расчёт максимального жима лёжа (1ПМ)</h2>
+      <form id="benchForm">
+        <label>Вес штанги (кг):</label>
+        <input type="number" id="benchWeight" required>
+        <label>Количество повторений:</label>
+        <input type="number" id="benchReps" required>
+        <button type="submit">Рассчитать 1ПМ</button>
+      </form>
+      <div class="result" id="benchResult" style="display:none;"></div>
+    </section>
 
-        form.addEventListener('submit', function(e){
-            e.preventDefault();
+    <section>
+      <h2>О проекте</h2>
+      <p><strong>Trenova+</strong> — это интеллектуальный фитнес-помощник, который помогает точно рассчитать калораж, 
+         баланс БЖУ и реальный максимум в упражнениях. 
+         Проект создан для тех, кто ценит науку, результат и эффективность.</p>
+    </section>
+  </main>
 
-            const age = parseInt(document.getElementById('age').value);
-            const height = parseInt(document.getElementById('height').value);
-            const weight = parseInt(document.getElementById('weight').value);
-            const sex = document.getElementById('sex').value;
-            const activity = parseInt(document.getElementById('activity').value);
-            const goal = document.getElementById('goal').value;
+  <script>
+    // === Калькулятор калорий ===
+    document.getElementById('calcForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const age = +document.getElementById('age').value;
+      const height = +document.getElementById('height').value;
+      const weight = +document.getElementById('weight').value;
+      const sex = document.getElementById('sex').value;
+      const activity = +document.getElementById('activity').value;
+      const goal = document.getElementById('goal').value;
 
-// BMR формула Миффлина-Сан Жеора
-            let bmr;
-            if(sex === "м"){
-                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
-            } else {
-                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
-            }
+      let bmr = (sex === "м")
+        ? 10 * weight + 6.25 * height - 5 * age + 5
+        : 10 * weight + 6.25 * height - 5 * age - 161;
 
-            const tdee = bmr * [1.2,1.375,1.55,1.725,1.9][activity-1];
-            let adjustedCalories = tdee;
-            if(goal === "похудение") adjustedCalories = tdee * 0.85;
-            if(goal === "набор") adjustedCalories = tdee * 1.1;
+      const tdee = bmr * [1.2,1.375,1.55,1.725,1.9][activity-1];
+      let adjustedCalories = tdee;
+      if (goal === "похудение") adjustedCalories *= 0.85;
+      if (goal === "набор") adjustedCalories *= 1.1;
 
-            // БЖУ
-            const protein = Math.round(weight * 1.8); // г
-            const fat = Math.round(weight * 0.8); // г
-            const carbs = Math.round((adjustedCalories - (protein*4 + fat*9))/4); // г
+      const protein = Math.round(weight * 1.8);
+      const fat = Math.round(weight * 0.8);
+      const carbs = Math.round((adjustedCalories - (protein*4 + fat*9))/4);
+      const slowCarbs = Math.round(carbs * 0.65);
+      const simpleCarbs = carbs - slowCarbs;
+      const plantFat = Math.round(fat * 0.65);
+      const animalFat = fat - plantFat;
 
-            // Разделение углеводов
-            const slowCarbs = Math.round(carbs * 0.65);
-            const simpleCarbs = carbs - slowCarbs;
+      const res = document.getElementById('result');
+      res.style.display = "block";
+      res.innerHTML = `
+        🔥 <strong>Суточная норма:</strong> ${Math.round(adjustedCalories)} ккал<br>
+        🍗 Белки: ${protein} г<br>
+        🥑 Жиры: ${fat} г (растительные: ${plantFat} г, животные: ${animalFat} г)<br>
+        🍞 Углеводы: ${carbs} г (медленные: ${slowCarbs} г, простые: ${simpleCarbs} г)
+      `;
+    });
 
-            // Разделение жиров
-            const plantFat = Math.round(fat * 0.65);
-            const animalFat = fat - plantFat;
+    // === Калькулятор жима ===
+    document.getElementById('benchForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const w = +document.getElementById('benchWeight').value;
+      const r = +document.getElementById('benchReps').value;
+      if (r < 1) return;
 
-            resultDiv.style.display = "block";
-            resultDiv.innerHTML = `
-                🔥 <strong>Суточная норма калорий:</strong> ${Math.round(adjustedCalories)} ккал<br>
-                🍗 Белки: ${protein} г<br>
-                🥑 Жиры: ${fat} г (растительные: ${plantFat} г, животные: ${animalFat} г)<br>
-                🍞 Углеводы: ${carbs} г (медленные: ${slowCarbs} г, простые: ${simpleCarbs} г)<br>
-                🥗 Рекомендации: распределяйте приемы пищи на 3–5 раз в день, следите за балансом макронутриентов.
-            `;
-        });
-    </script>
+      const epley = w * (1 + 0.0333 * r);
+      const brzycki = w * 36 / (37 - r);
+      const lombardi = w * Math.pow(r, 0.10);
+      const mayhew = 100 * w / (52.2 + 41.9 * Math.exp(-0.055 * r));
+      const oconner = w * (1 + 0.025 * r);
+
+      const avg = (epley + brzycki + lombardi + mayhew + oconner) / 5;
+
+      const benchDiv = document.getElementById('benchResult');
+      benchDiv.style.display = "block";
+      benchDiv.innerHTML = `
+        <strong>Средний 1ПМ:</strong> ${avg.toFixed(1)} кг<br><br>
+        <table>
+          <tr><th>Формула</th><th>Результат (кг)</th></tr>
+          <tr><td>Эпли</td><td>${epley.toFixed(1)}</td></tr>
+          <tr><td>Бранки</td><td>${brzycki.toFixed(1)}</td></tr>
+          <tr><td>Ломбарди</td><td>${lombardi.toFixed(1)}</td></tr>
+          <tr><td>Мэйхю</td><td>${mayhew.toFixed(1)}</td></tr>
+          <tr><td>О’Коннор</td><td>${oconner.toFixed(1)}</td></tr>
+        </table>
+      `;
+    });
+  </script>
 </body>
-</html>                              
+</html>
