@@ -15,7 +15,7 @@ h2{text-align:center;color:#0d47a1;font-size:1.8rem;margin-bottom:20px;}
 .card{background:white;padding:30px 20px;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.1);transition:0.3s;margin-bottom:20px;}
 .card:hover{box-shadow:0 12px 30px rgba(0,0,0,0.15);}
 label{display:block;margin-top:10px;font-weight:600;}
-input{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;margin-bottom:15px;font-size:1rem;}
+input, select{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;margin-bottom:15px;font-size:1rem;}
 button{width:100%;padding:12px;border:none;border-radius:8px;background:#1e88e5;color:white;font-size:16px;cursor:pointer;transition:0.3s;font-weight:bold;}
 button:hover{background:#1565c0;}
 .result{display:none;margin-top:20px;background:#e3f2fd;padding:20px;border-radius:10px;text-align:center;}
@@ -34,40 +34,55 @@ th{background:#bbdefb;}
 </nav>
 </header>
 <main>
-<h2>Калькулятор максимального жима (1ПМ)</h2>
+<h2>Калькулятор максимального 1ПМ</h2>
 <div class="card">
-<form id="benchForm">
+<form id="strengthForm">
+<label>Выберите упражнение:</label>
+<select id="exercise">
+  <option value="bench">Жим лёжа</option>
+  <option value="deadlift">Становая тяга</option>
+  <option value="squat">Присед со штангой</option>
+</select>
 <label>Вес штанги (кг):</label>
-<input type="number" id="benchWeight" required>
-<label>Повторения:</label>
-<input type="number" id="benchReps" required>
+<input type="number" id="weight" required>
+<label>Количество повторений:</label>
+<input type="number" id="reps" required>
 <button type="submit">Рассчитать</button>
 </form>
-<div class="result" id="benchResult"></div>
+<div class="result" id="result"></div>
 </div>
 <script>
-document.getElementById('benchForm').addEventListener('submit',function(e){
-e.preventDefault();
-const weight=+document.getElementById('benchWeight').value;
-const reps=+document.getElementById('benchReps').value;
-if(!weight||!reps||reps<1)return;
-const epley=weight*(1+0.0333*reps);
-const brzycki=weight*36/(37-reps);
-const lombardi=weight*Math.pow(reps,0.10);
-const mayhew=100*weight/(52.2+41.9*Math.exp(-0.055*reps));
-const oconner=weight*(1+0.025*reps);
-const avg=(epley+brzycki+lombardi+mayhew+oconner)/5;
-let res=document.getElementById('benchResult');
-res.style.display='block';
-res.innerHTML=`<strong>Средний 1ПМ:</strong> ${avg.toFixed(1)} кг<br><br>
-<table>
-<tr><th>Формула</th><th>Результат (кг)</th></tr>
-<tr><td>Эпли</td><td>${epley.toFixed(1)}</td></tr>
-<tr><td>Бранки</td><td>${brzycki.toFixed(1)}</td></tr>
-<tr><td>Ломбарди</td><td>${lombardi.toFixed(1)}</td></tr>
-<tr><td>Мэйхю</td><td>${mayhew.toFixed(1)}</td></tr>
-<tr><td>О’Коннор</td><td>${oconner.toFixed(1)}</td></tr>
-</table>`;
+document.getElementById('strengthForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const exercise = document.getElementById('exercise').value;
+    const weight = +document.getElementById('weight').value;
+    const reps = +document.getElementById('reps').value;
+    if(!weight || !reps || reps<1) return;
+
+    // Универсальные формулы для 1ПМ
+    const epley = weight*(1+0.0333*reps);
+    const brzycki = weight*36/(37-reps);
+    const lombardi = weight*Math.pow(reps,0.10);
+    const mayhew = 100*weight/(52.2+41.9*Math.exp(-0.055*reps));
+    const oconner = weight*(1+0.025*reps);
+
+    // Среднее арифметическое
+    const avg = (epley+brzycki+lombardi+mayhew+oconner)/5;
+
+    const exerciseName = exercise === 'bench' ? 'Жим лёжа' :
+                         exercise === 'deadlift' ? 'Становая тяга' : 'Присед со штангой';
+
+    const resDiv = document.getElementById('result');
+    resDiv.style.display='block';
+    resDiv.innerHTML = `<strong>${exerciseName} — Средний 1ПМ:</strong> ${avg.toFixed(1)} кг<br><br>
+    <table>
+    <tr><th>Формула</th><th>Результат (кг)</th></tr>
+    <tr><td>Эпли</td><td>${epley.toFixed(1)}</td></tr>
+    <tr><td>Бранки</td><td>${brzycki.toFixed(1)}</td></tr>
+    <tr><td>Ломбарди</td><td>${lombardi.toFixed(1)}</td></tr>
+    <tr><td>Мэйхю</td><td>${mayhew.toFixed(1)}</td></tr>
+    <tr><td>О’Коннор</td><td>${oconner.toFixed(1)}</td></tr>
+    </table>`;
 });
 </script>
 </body>
