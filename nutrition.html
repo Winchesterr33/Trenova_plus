@@ -6,86 +6,37 @@
 <title>FitPro+ | Питание</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f0f4f8;
-  color: #333;
-}
-
-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: #1e88e5;
-  color: white;
-  padding: 15px 30px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-main {
-  max-width: 700px;
-  margin: 140px auto 40px;
-  padding: 0 15px;
-}
-
-.card {
-  background: white;
-  padding: 25px;
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
-label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-input, select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-}
-
-button {
-  margin-top: 15px;
-  width: 100%;
-  padding: 12px;
-  background: #1e88e5;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-.result {
-  margin-top: 20px;
-  padding: 15px;
-  background: #e3f2fd;
-  border-radius: 10px;
-  white-space: pre-line;
-}
+body{margin:0;font-family:Arial;background:#f0f4f8;}
+header{position:fixed;top:0;width:100%;background:#1e88e5;color:white;padding:15px 30px;}
+.header-inner{display:flex;justify-content:space-between;align-items:center;}
+nav a{color:white;text-decoration:none;margin-left:15px;font-weight:bold;}
+main{max-width:700px;margin:140px auto 40px;padding:0 15px;}
+.card{background:white;padding:25px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.1);}
+label{display:block;margin-top:10px;font-weight:bold;}
+input,select{width:100%;padding:10px;margin-top:5px;}
+button{margin-top:15px;width:100%;padding:12px;background:#1e88e5;color:white;border:none;border-radius:8px;font-weight:bold;}
+.result{margin-top:20px;padding:15px;background:#e3f2fd;border-radius:10px;white-space:pre-line;}
 </style>
 </head>
 
 <body>
 
 <header>
-  <h2>FitPro+</h2>
+  <div class="header-inner">
+    <h2>FitPro+</h2>
+    <nav>
+      <a href="index.html">Главная</a>
+      <a href="strength.html">Тренировки</a>
+    </nav>
+  </div>
 </header>
 
 <main>
   <div class="card">
     <form id="form">
-      <label>Возраст</label>
-      <input type="number" id="age">
-
-      <label>Рост (см)</label>
-      <input type="number" id="height">
-
-      <label>Вес (кг)</label>
-      <input type="number" id="weight">
+      <label>Возраст</label><input id="age" type="number">
+      <label>Рост (см)</label><input id="height" type="number">
+      <label>Вес (кг)</label><input id="weight" type="number">
 
       <label>Пол</label>
       <select id="sex">
@@ -117,54 +68,28 @@ button {
 </main>
 
 <script>
-document.getElementById("form").onsubmit = function(e) {
-  e.preventDefault();
+document.getElementById("form").onsubmit=function(e){
+e.preventDefault();
 
-  var age = Number(document.getElementById("age").value);
-  var height = Number(document.getElementById("height").value);
-  var weight = Number(document.getElementById("weight").value);
-  var sex = document.getElementById("sex").value;
-  var activity = Number(document.getElementById("activity").value);
-  var goal = document.getElementById("goal").value;
+var age=+age.value, h=+height.value, w=+weight.value;
+if(!age||!h||!w)return;
 
-  if (age <= 0 || height <= 0 || weight <= 0) return;
+var bmr=(sex.value=="m")?10*w+6.25*h-5*age+5:10*w+6.25*h-5*age-161;
+var k=[1.2,1.375,1.55,1.725,1.9][activity.value-1];
+var cal=bmr*k;
+if(goal.value=="cut")cal*=0.85;
+if(goal.value=="bulk")cal*=1.1;
 
-  var bmr;
-  if (sex === "m") {
-    bmr = 10 * weight + 6.25 * height - 5 * age + 5;
-  } else {
-    bmr = 10 * weight + 6.25 * height - 5 * age - 161;
-  }
+var p=Math.round(w*1.8);
+var f=Math.round(w*0.8);
+var c=Math.round((cal-p*4-f*9)/4);
 
-  var coef = 1.2;
-  if (activity === 2) coef = 1.375;
-  if (activity === 3) coef = 1.55;
-  if (activity === 4) coef = 1.725;
-  if (activity === 5) coef = 1.9;
-
-  var calories = bmr * coef;
-
-  if (goal === "cut") calories = calories * 0.85;
-  if (goal === "bulk") calories = calories * 1.10;
-
-  var protein = Math.round(weight * 1.8);
-  var fat = Math.round(weight * 0.8);
-  var carbs = Math.round((calories - protein * 4 - fat * 9) / 4);
-
-  var slowCarbs = Math.round(carbs * 0.65);
-  var fastCarbs = carbs - slowCarbs;
-
-  var plantFat = Math.round(fat * 0.65);
-  var animalFat = fat - plantFat;
-
-  var text = "";
-  text += "Суточные калории: " + Math.round(calories) + " ккал\n";
-  text += "Белки: " + protein + " г\n";
-  text += "Жиры: " + fat + " г (растительные " + plantFat + ", животные " + animalFat + ")\n";
-  text += "Углеводы: " + carbs + " г (медленные " + slowCarbs + ", простые " + fastCarbs + ")";
-
-  document.getElementById("result").innerText = text;
-};
+result.innerText=
+"Калории: "+Math.round(cal)+" ккал\n"+
+"Белки: "+p+" г\n"+
+"Жиры: "+f+" г (растит. "+Math.round(f*0.65)+", животн. "+Math.round(f*0.35)+")\n"+
+"Углеводы: "+c+" г (медл. "+Math.round(c*0.65)+", быстрые "+Math.round(c*0.35)+")";
+}
 </script>
 
 </body>
