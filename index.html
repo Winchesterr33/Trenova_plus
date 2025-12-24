@@ -3,190 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FitPro+ | Питание</title>
-
+<title>ФитПро+</title>
 <style>
-body{
-  margin:0;
-  font-family:'Arial',sans-serif;
-  background:#f0f4f8;
-  color:#333;
-}
-header{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:#1e88e5;
-  color:white;
-  padding:15px 30px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 4px 10px rgba(0,0,0,0.2);
-  z-index:1000;
-}
-header h1{margin:0;font-size:1.6rem;}
-nav a{
-  color:white;
-  text-decoration:none;
-  margin-left:20px;
-  padding:8px 15px;
-  border-radius:5px;
-  font-weight:600;
-}
+body{margin:0;font-family:'Arial',sans-serif;background:#f0f4f8;color:#333;}
+header{position:fixed;top:0;width:100%;background:#1e88e5;color:white;display:flex;justify-content:space-between;align-items:center;padding:15px 30px;box-shadow:0 4px 10px rgba(0,0,0,0.2);z-index:1000;}
+header h1{margin:0;font-size:1.6rem;font-weight:bold;}
+nav a{margin-left:20px;color:white;text-decoration:none;font-weight:600;padding:8px 15px;border-radius:5px;transition:0.3s;}
 nav a:hover{background: rgba(255,255,255,0.2);}
-
-main{
-  max-width:750px;
-  margin:140px auto 50px;
-  padding:0 15px;
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-}
-
-.card{
-  background:white;
-  padding:30px 20px;
-  border-radius:15px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.1);
-}
-
-label{display:block;margin-top:10px;font-weight:600;}
-input,select{
-  width:100%;
-  padding:10px;
-  margin-bottom:15px;
-  border-radius:6px;
-  border:1px solid #ccc;
-}
-
-button{
-  width:100%;
-  padding:12px;
-  background:linear-gradient(90deg,#1e88e5,#1565c0);
-  color:white;
-  border:none;
-  border-radius:8px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.3s;
-}
-button:hover{
-  background:linear-gradient(90deg,#1565c0,#1e88e5);
-}
-
-.result{
-  margin-top:20px;
-  padding:20px;
-  border-radius:10px;
-  background:#e3f2fd;
-  line-height:1.6;
-}
-
-@media(max-width:600px){
-  header{flex-direction:column;align-items:flex-start;padding:10px 20px;}
-  header h1{font-size:1.4rem;margin-bottom:8px;}
-  nav a{margin-left:0;margin-top:6px;}
-  main{margin-top:160px;}
-}
+main{max-width:750px;margin:140px auto 50px auto;padding:0 15px;display:flex;flex-direction:column;gap:20px;}
+.card{background:white;padding:30px 20px;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.1);transition:0.3s;display:flex;flex-direction:column;align-items:center;}
+.card:hover{box-shadow:0 12px 30px rgba(0,0,0,0.15);}
+.card h2{color:#0d47a1;margin-bottom:15px;}
+.button{display:inline-block;margin:10px;padding:12px 25px;background:linear-gradient(90deg,#1e88e5,#1565c0);color:white;border-radius:10px;text-decoration:none;font-weight:bold;transition:0.3s;}
+.button:hover{background:linear-gradient(90deg,#1565c0,#1e88e5);}
+@media(max-width:600px){header{flex-direction:column;align-items:flex-start;padding:10px 20px;}header h1{font-size:1.4rem;margin-bottom:8px;}nav a{margin-left:0;margin-top:6px;}main{margin-top:160px;}}
 </style>
 </head>
-
 <body>
-
 <header>
-  <h1>FitPro+</h1>
-  <nav>
-    <a href="index.html">🏠 Главная</a>
-    <a href="strength.html">🏋️ Тренировки</a>
-  </nav>
+<h1>ФитПро+</h1>
+<nav>
+<a href="nutrition.html">🥗 Составить индивидуальный план питания</a>
+<a href="strength.html">🏋️ Силомер</a>
+</nav>
 </header>
-
 <main>
-  <h2>Калькулятор калорий и БЖУ</h2>
-
-  <div class="card">
-    <form id="calcForm">
-      <label>Возраст:</label>
-      <input type="number" id="age" required>
-
-      <label>Рост (см):</label>
-      <input type="number" id="height" required>
-
-      <label>Вес (кг):</label>
-      <input type="number" id="weight" required>
-
-      <label>Пол:</label>
-      <select id="sex">
-        <option value="м">Мужской</option>
-        <option value="ж">Женский</option>
-      </select>
-
-      <label>Активность:</label>
-      <select id="activity">
-        <option value="1">Минимальная</option>
-        <option value="2">Низкая</option>
-        <option value="3">Средняя</option>
-        <option value="4">Высокая</option>
-        <option value="5">Очень высокая</option>
-      </select>
-
-      <label>Цель:</label>
-      <select id="goal">
-        <option value="поддержание">Поддержание веса</option>
-        <option value="похудение">Похудение</option>
-        <option value="набор">Набор массы</option>
-      </select>
-
-      <button type="submit">Рассчитать</button>
-    </form>
-
-    <div class="result" id="result"></div>
-  </div>
+<div class="card">
+<h2>Добро пожаловать в ФитПро+</h2>
+<p>Данный сервис в разработке, на данный момент доступно всего 2 функции. Приятного использования!</p>
+<a href="nutrition.html" class="button">🥗 Питание</a>
+<a href="strength.html" class="button">🏋️ Силомер</a>
+</div>
 </main>
-
-<script>
-document.getElementById('calcForm').addEventListener('submit', function(e){
-  e.preventDefault();
-
-  const age = +age.value;
-  const height = +height.value;
-  const weight = +weight.value;
-  const sex = document.getElementById('sex').value;
-  const activity = +document.getElementById('activity').value;
-  const goal = document.getElementById('goal').value;
-
-  if(!age || !height || !weight) return;
-
-  let bmr = sex === 'м'
-    ? 10*weight + 6.25*height - 5*age + 5
-    : 10*weight + 6.25*height - 5*age - 161;
-
-  let tdee = bmr * [1.2,1.375,1.55,1.725,1.9][activity-1];
-  if(goal === 'похудение') tdee *= 0.85;
-  if(goal === 'набор') tdee *= 1.10;
-
-  let protein = Math.round(weight * 1.8);
-  let fat = Math.round(weight * 0.8);
-  let carbs = Math.round((tdee - (protein*4 + fat*9)) / 4);
-
-  result.innerHTML = `
-    <strong>🔥 Суточная норма:</strong> ${Math.round(tdee)} ккал<br><br>
-
-    <strong>🍗 Белки:</strong> ${protein} г<br>
-    Источники: мясо, рыба, яйца, творог, греческий йогурт<br><br>
-
-    <strong>🥑 Жиры:</strong> ${fat} г<br>
-    • Растительные: оливковое масло, орехи, авокадо<br>
-    • Животные: яйца, рыба, сливочное масло<br><br>
-
-    <strong>🍞 Углеводы:</strong> ${carbs} г<br>
-    • Медленные: рис, гречка, овсянка, макароны из твёрдых сортов<br>
-    • Быстрые: фрукты, мёд, сухофрукты
-  `;
-});
-</script>
-
 </body>
 </html>
