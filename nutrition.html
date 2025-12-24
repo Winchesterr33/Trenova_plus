@@ -4,50 +4,86 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FitPro+ | Питание</title>
-<link rel="stylesheet" href="style.css">
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f0f4f8;color:#333;scroll-behavior:smooth;}
+header{position:fixed;top:0;left:0;width:100%;background:#1e88e5;color:white;display:flex;justify-content:space-between;align-items:center;padding:15px 30px;box-shadow:0 4px 10px rgba(0,0,0,0.2);z-index:1000;}
+header h1{margin:0;font-size:1.6rem;font-weight:bold;}
+nav a{margin-left:20px;color:white;text-decoration:none;font-weight:600;padding:8px 15px;border-radius:5px;transition:0.3s;}
+nav a:hover{background: rgba(255,255,255,0.2);}
+main{max-width:750px;margin:140px auto 50px auto;padding:0 15px;}
+h2{text-align:center;color:#0d47a1;font-size:1.8rem;margin-bottom:20px;}
+.card{background:white;padding:30px 20px;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.1);transition:0.3s;margin-bottom:20px;}
+.card:hover{box-shadow:0 12px 30px rgba(0,0,0,0.15);}
+label{display:block;margin-top:10px;font-weight:600;}
+input,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;margin-bottom:15px;font-size:1rem;}
+button{width:100%;padding:12px;border:none;border-radius:8px;background:#1e88e5;color:white;font-size:16px;cursor:pointer;transition:0.3s;font-weight:bold;}
+button:hover{background:#1565c0;}
+.result{display:none;margin-top:20px;background:#e3f2fd;padding:20px;border-radius:10px;text-align:center;}
+@media(max-width:600px){header{flex-direction:column;align-items:flex-start;padding:10px 20px;}header h1{font-size:1.4rem;margin-bottom:8px;}nav a{margin-left:0;margin-top:6px;}main{margin-top:160px;}h2{font-size:1.5rem;}}
+</style>
 </head>
 <body>
-
 <header>
-  <h1>FitPro+</h1>
-  <nav>
-    <a href="index.html">🏠 Главная</a>
-    <a href="strength.html">🏋️ Сила</a>
-  </nav>
+<h1>FitPro+</h1>
+<nav>
+<a href="index.html">🏠 Главная</a>
+<a href="strength.html">🏋️ Сила</a>
+</nav>
 </header>
-
 <main>
-  <h2>Калькулятор калорий и БЖУ</h2>
-  <div class="card">
-    <form id="calcForm">
-      <label>Возраст:</label><input type="number" id="age" required>
-      <label>Рост (см):</label><input type="number" id="height" required>
-      <label>Вес (кг):</label><input type="number" id="weight" required>
-      <label>Пол:</label>
-      <select id="sex">
-        <option value="м">Мужской</option>
-        <option value="ж">Женский</option>
-      </select>
-      <label>Активность:</label>
-      <select id="activity">
-        <option value="1">Минимальная</option>
-        <option value="2">Низкая</option>
-        <option value="3">Средняя</option>
-        <option value="4">Высокая</option>
-        <option value="5">Очень высокая</option>
-      </select>
-      <label>Цель:</label>
-      <select id="goal">
-        <option value="поддержание">Поддержание веса</option>
-        <option value="похудение">Похудение</option>
-        <option value="набор">Набор массы</option>
-      </select>
-      <button type="submit">Рассчитать</button>
-    </form>
-    <div class="result" id="result"></div>
-  </div>
+<h2>Калькулятор калорий и БЖУ</h2>
+<div class="card">
+<form id="calcForm">
+<label>Возраст:</label><input type="number" id="age" required>
+<label>Рост (см):</label><input type="number" id="height" required>
+<label>Вес (кг):</label><input type="number" id="weight" required>
+<label>Пол:</label>
+<select id="sex">
+<option value="м">Мужской</option>
+<option value="ж">Женский</option>
+</select>
+<label>Активность:</label>
+<select id="activity">
+<option value="1">Минимальная</option>
+<option value="2">Низкая</option>
+<option value="3">Средняя</option>
+<option value="4">Высокая</option>
+<option value="5">Очень высокая</option>
+</select>
+<label>Цель:</label>
+<select id="goal">
+<option value="поддержание">Поддержание веса</option>
+<option value="похудение">Похудение</option>
+<option value="набор">Набор массы</option>
+</select>
+<button type="submit">Рассчитать</button>
+</form>
+<div class="result" id="result"></div>
+</div>
 </main>
-
-<script src="script.js"></script>
+<script>
+document.getElementById('calcForm').addEventListener('submit',function(e){
+e.preventDefault();
+const age=+document.getElementById('age').value;
+const height=+document.getElementById('height').value;
+const weight=+document.getElementById('weight').value;
+const sex=document.getElementById('sex').value;
+const activity=+document.getElementById('activity').value;
+const goal=document.getElementById('goal').value;
+if(!age||!height||!weight)return;
+let bmr=(sex==='м'?10*weight+6.25*height-5*age+5:10*weight+6.25*height-5*age-161);
+let tdee=bmr*[1.2,1.375,1.55,1.725,1.9][activity-1]*(goal==='похудение'?0.85:(goal==='набор'?1.10:1));
+let protein=Math.round(weight*1.8);
+let fat=Math.round(weight*0.8);
+let carbs=Math.round((tdee-(protein*4+fat*9))/4);
+let slowCarbs=Math.round(carbs*0.65);
+let simpleCarbs=carbs-slowCarbs;
+let plantFat=Math.round(fat*0.65);
+let animalFat=fat-plantFat;
+let res=document.getElementById('result');
+res.style.display='block';
+res.innerHTML=`<strong>🔥 Суточная норма:</strong> ${Math.round(tdee)} ккал<br>🍗 Белки: ${protein} г<br>🥑 Жиры: ${fat} г (растительные: ${plantFat} г, животные: ${animalFat} г)<br>🍞 Углеводы: ${carbs} г (медленные: ${slowCarbs} г, простые: ${simpleCarbs} г)`;
+});
+</script>
 </body>
 </html>
