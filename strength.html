@@ -4,32 +4,72 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FitPro+ | Сила</title>
-<link rel="stylesheet" href="style.css">
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f0f4f8;color:#333;scroll-behavior:smooth;}
+header{position:fixed;top:0;left:0;width:100%;background:#1e88e5;color:white;display:flex;justify-content:space-between;align-items:center;padding:15px 30px;box-shadow:0 4px 10px rgba(0,0,0,0.2);z-index:1000;}
+header h1{margin:0;font-size:1.6rem;font-weight:bold;}
+nav a{margin-left:20px;color:white;text-decoration:none;font-weight:600;padding:8px 15px;border-radius:5px;transition:0.3s;}
+nav a:hover{background: rgba(255,255,255,0.2);}
+main{max-width:750px;margin:140px auto 50px auto;padding:0 15px;}
+h2{text-align:center;color:#0d47a1;font-size:1.8rem;margin-bottom:20px;}
+.card{background:white;padding:30px 20px;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.1);transition:0.3s;margin-bottom:20px;}
+.card:hover{box-shadow:0 12px 30px rgba(0,0,0,0.15);}
+label{display:block;margin-top:10px;font-weight:600;}
+input{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;margin-bottom:15px;font-size:1rem;}
+button{width:100%;padding:12px;border:none;border-radius:8px;background:#1e88e5;color:white;font-size:16px;cursor:pointer;transition:0.3s;font-weight:bold;}
+button:hover{background:#1565c0;}
+.result{display:none;margin-top:20px;background:#e3f2fd;padding:20px;border-radius:10px;text-align:center;}
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+th,td{border:1px solid #ccc;padding:6px;text-align:center;}
+th{background:#bbdefb;}
+@media(max-width:600px){header{flex-direction:column;align-items:flex-start;padding:10px 20px;}header h1{font-size:1.4rem;margin-bottom:8px;}nav a{margin-left:0;margin-top:6px;}main{margin-top:160px;}h2{font-size:1.5rem;}}
+</style>
 </head>
 <body>
-
 <header>
-  <h1>FitPro+</h1>
-  <nav>
-    <a href="index.html">🏠 Главная</a>
-    <a href="nutrition.html">🥗 Питание</a>
-  </nav>
+<h1>FitPro+</h1>
+<nav>
+<a href="index.html">🏠 Главная</a>
+<a href="nutrition.html">🥗 Питание</a>
+</nav>
 </header>
-
 <main>
-  <h2>Калькулятор максимального жима (1ПМ)</h2>
-  <div class="card">
-    <form id="benchForm">
-      <label>Вес штанги (кг):</label>
-      <input type="number" id="benchWeight" required>
-      <label>Повторения:</label>
-      <input type="number" id="benchReps" required>
-      <button type="submit">Рассчитать</button>
-    </form>
-    <div class="result" id="benchResult"></div>
-  </div>
+<h2>Калькулятор максимального жима (1ПМ)</h2>
+<div class="card">
+<form id="benchForm">
+<label>Вес штанги (кг):</label>
+<input type="number" id="benchWeight" required>
+<label>Повторения:</label>
+<input type="number" id="benchReps" required>
+<button type="submit">Рассчитать</button>
+</form>
+<div class="result" id="benchResult"></div>
+</div>
 </main>
-
-<script src="script.js"></script>
+<script>
+document.getElementById('benchForm').addEventListener('submit',function(e){
+e.preventDefault();
+const weight=+document.getElementById('benchWeight').value;
+const reps=+document.getElementById('benchReps').value;
+if(!weight||!reps||reps<1)return;
+const epley=weight*(1+0.0333*reps);
+const brzycki=weight*36/(37-reps);
+const lombardi=weight*Math.pow(reps,0.10);
+const mayhew=100*weight/(52.2+41.9*Math.exp(-0.055*reps));
+const oconner=weight*(1+0.025*reps);
+const avg=(epley+brzycki+lombardi+mayhew+oconner)/5;
+let res=document.getElementById('benchResult');
+res.style.display='block';
+res.innerHTML=`<strong>Средний 1ПМ:</strong> ${avg.toFixed(1)} кг<br><br>
+<table>
+<tr><th>Формула</th><th>Результат (кг)</th></tr>
+<tr><td>Эпли</td><td>${epley.toFixed(1)}</td></tr>
+<tr><td>Бранки</td><td>${brzycki.toFixed(1)}</td></tr>
+<tr><td>Ломбарди</td><td>${lombardi.toFixed(1)}</td></tr>
+<tr><td>Мэйхю</td><td>${mayhew.toFixed(1)}</td></tr>
+<tr><td>О’Коннор</td><td>${oconner.toFixed(1)}</td></tr>
+</table>`;
+});
+</script>
 </body>
 </html>
