@@ -16,12 +16,8 @@ label{display:block;margin-top:10px;font-weight:600;}
 input,select{width:100%;padding:10px;margin-bottom:15px;border-radius:6px;border:1px solid #ccc;}
 button{width:100%;padding:12px;background:linear-gradient(90deg,#1e88e5,#1565c0);color:white;border:none;border-radius:8px;font-weight:bold;cursor:pointer;transition:0.3s;}
 button:hover{background:linear-gradient(90deg,#1565c0,#1e88e5);}
-.result{display:none;margin-top:20px;padding:20px;border-radius:10px;background:#e3f2fd;text-align:center;}
-.progress{background:#ddd;border-radius:10px;height:20px;margin:5px 0;overflow:hidden;}
-.bar{height:100%;border-radius:10px;text-align:center;color:white;font-weight:bold;}
-.bar-protein{background:#1e88e5;width:0;}
-.bar-fat{background:#43a047;width:0;}
-.bar-carbs{background:#fbc02d;width:0;}
+.result{display:none;margin-top:20px;padding:20px;border-radius:10px;background:#e3f2fd;text-align:left;}
+.result p{margin:5px 0;}
 @media(max-width:600px){header{flex-direction:column;align-items:flex-start;padding:10px 20px;}header h1{font-size:1.4rem;margin-bottom:8px;}nav a{margin-left:0;margin-top:6px;}main{margin-top:160px;}}
 </style>
 </head>
@@ -30,7 +26,7 @@ button:hover{background:linear-gradient(90deg,#1565c0,#1e88e5);}
 <h1>FitPro+</h1>
 <nav>
 <a href="index.html">🏠 Главная</a>
-<a href="strength.html">🏋️ Силомер</a>
+<a href="strength.html">🏋️ Тренировки</a>
 </nav>
 </header>
 <main>
@@ -61,12 +57,7 @@ button:hover{background:linear-gradient(90deg,#1565c0,#1e88e5);}
 </select>
 <button type="submit">Рассчитать</button>
 </form>
-<div class="result" id="result">
-  <p><strong>Прогресс-бары:</strong></p>
-  <div class="progress"><div id="proteinBar" class="bar bar-protein"></div></div>
-  <div class="progress"><div id="fatBar" class="bar bar-fat"></div></div>
-  <div class="progress"><div id="carbsBar" class="bar bar-carbs"></div></div>
-</div>
+<div class="result" id="result"></div>
 </div>
 
 <script>
@@ -88,22 +79,18 @@ document.getElementById('calcForm').addEventListener('submit', function(e){
   let fat = Math.round(weight*0.8);
   let carbs = Math.round((tdee - (protein*4 + fat*9))/4);
 
-  // Прогресс-бары в процентах
-  let proteinPercent = Math.min(protein*2,100);
-  let fatPercent = Math.min(fat*5,100);
-  let carbsPercent = Math.min(carbs,100);
+  let slowCarbs = Math.round(carbs*0.65);
+  let simpleCarbs = carbs - slowCarbs;
+  let plantFat = Math.round(fat*0.65);
+  let animalFat = fat - plantFat;
 
   const resDiv = document.getElementById('result');
   resDiv.style.display='block';
   resDiv.innerHTML = `
-    <strong>🔥 Суточная норма:</strong> ${Math.round(tdee)} ккал<br>
-    🍗 Белки: ${protein} г<br>
-    🥑 Жиры: ${fat} г<br>
-    🍞 Углеводы: ${carbs} г
-    <p><strong>Прогресс-бары:</strong></p>
-    <div class="progress"><div class="bar bar-protein" style="width:${proteinPercent}%"></div></div>
-    <div class="progress"><div class="bar bar-fat" style="width:${fatPercent}%"></div></div>
-    <div class="progress"><div class="bar bar-carbs" style="width:${carbsPercent}%"></div></div>
+    <p><strong>🔥 Суточная норма:</strong> ${Math.round(tdee)} ккал</p>
+    <p>🍗 Белки: ${protein} г</p>
+    <p>🥑 Жиры: ${fat} г (растительные: ${plantFat} г, животные: ${animalFat} г)</p>
+    <p>🍞 Углеводы: ${carbs} г (медленные: ${slowCarbs} г, простые: ${simpleCarbs} г)</p>
   `;
 });
 </script>
