@@ -6,98 +6,89 @@
 <title>FitPro+ | Питание</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f0f4f8;
-  color: #333;
+body{
+  margin:0;
+  font-family:'Arial',sans-serif;
+  background:#f0f4f8;
+  color:#333;
+}
+header{
+  position:fixed;
+  top:0;
+  width:100%;
+  background:#1e88e5;
+  color:white;
+  padding:15px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  z-index:1000;
+}
+header h1{margin:0;font-size:1.6rem;}
+nav a{
+  color:white;
+  text-decoration:none;
+  margin-left:20px;
+  padding:8px 15px;
+  border-radius:5px;
+  font-weight:600;
+}
+nav a:hover{background: rgba(255,255,255,0.2);}
+
+main{
+  max-width:750px;
+  margin:140px auto 50px;
+  padding:0 15px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
 }
 
-/* ===== HEADER ===== */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #1e88e5;
-  color: white;
-  padding: 15px 30px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  z-index: 1000;
+.card{
+  background:white;
+  padding:30px 20px;
+  border-radius:15px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.1);
 }
 
-.header-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+label{display:block;margin-top:10px;font-weight:600;}
+input,select{
+  width:100%;
+  padding:10px;
+  margin-bottom:15px;
+  border-radius:6px;
+  border:1px solid #ccc;
 }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  margin-left: 15px;
-  padding: 6px 14px;
-  border-radius: 6px;
-  font-weight: bold;
-  transition: 0.25s;
+button{
+  width:100%;
+  padding:12px;
+  background:linear-gradient(90deg,#1e88e5,#1565c0);
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover{
+  background:linear-gradient(90deg,#1565c0,#1e88e5);
 }
 
-nav a:hover {
-  background: rgba(255,255,255,0.25);
+.result{
+  margin-top:20px;
+  padding:20px;
+  border-radius:10px;
+  background:#e3f2fd;
+  line-height:1.6;
 }
 
-/* ===== MAIN ===== */
-main {
-  max-width: 720px;
-  margin: 140px auto 40px;
-  padding: 0 15px;
-}
-
-.card {
-  background: white;
-  padding: 30px;
-  border-radius: 18px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-label {
-  display: block;
-  margin-top: 12px;
-  font-weight: bold;
-}
-
-input, select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 6px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-button {
-  margin-top: 20px;
-  width: 100%;
-  padding: 14px;
-  background: #1e88e5;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #1565c0;
-}
-
-.result {
-  margin-top: 25px;
-  padding: 18px;
-  background: #e3f2fd;
-  border-radius: 12px;
-  white-space: pre-line;
-  font-weight: bold;
+@media(max-width:600px){
+  header{flex-direction:column;align-items:flex-start;padding:10px 20px;}
+  header h1{font-size:1.4rem;margin-bottom:8px;}
+  nav a{margin-left:0;margin-top:6px;}
+  main{margin-top:160px;}
 }
 </style>
 </head>
@@ -105,35 +96,34 @@ button:hover {
 <body>
 
 <header>
-  <div class="header-inner">
-    <h2>FitPro+</h2>
-    <nav>
-      <a href="index.html">Главная</a>
-      <a href="strength.html">Тренировки</a>
-    </nav>
-  </div>
+  <h1>FitPro+</h1>
+  <nav>
+    <a href="index.html">🏠 Главная</a>
+    <a href="strength.html">🏋️ Тренировки</a>
+  </nav>
 </header>
 
 <main>
+  <h2>Калькулятор калорий и БЖУ</h2>
+
   <div class="card">
-    <form id="form">
+    <form id="calcForm">
+      <label>Возраст:</label>
+      <input type="number" id="age" required>
 
-      <label>Возраст</label>
-      <input id="age" type="number">
+      <label>Рост (см):</label>
+      <input type="number" id="height" required>
 
-      <label>Рост (см)</label>
-      <input id="height" type="number">
+      <label>Вес (кг):</label>
+      <input type="number" id="weight" required>
 
-      <label>Вес (кг)</label>
-      <input id="weight" type="number">
-
-      <label>Пол</label>
+      <label>Пол:</label>
       <select id="sex">
-        <option value="m">Мужской</option>
-        <option value="f">Женский</option>
+        <option value="м">Мужской</option>
+        <option value="ж">Женский</option>
       </select>
 
-      <label>Активность</label>
+      <label>Активность:</label>
       <select id="activity">
         <option value="1">Минимальная</option>
         <option value="2">Низкая</option>
@@ -142,11 +132,11 @@ button:hover {
         <option value="5">Очень высокая</option>
       </select>
 
-      <label>Цель</label>
+      <label>Цель:</label>
       <select id="goal">
-        <option value="keep">Поддержание</option>
-        <option value="cut">Похудение</option>
-        <option value="bulk">Набор массы</option>
+        <option value="поддержание">Поддержание веса</option>
+        <option value="похудение">Похудение</option>
+        <option value="набор">Набор массы</option>
       </select>
 
       <button type="submit">Рассчитать</button>
@@ -157,43 +147,45 @@ button:hover {
 </main>
 
 <script>
-document.getElementById("form").onsubmit = function(e) {
+document.getElementById('calcForm').addEventListener('submit', function(e){
   e.preventDefault();
 
-  var age = +document.getElementById("age").value;
-  var h = +document.getElementById("height").value;
-  var w = +document.getElementById("weight").value;
+  const age = +age.value;
+  const height = +height.value;
+  const weight = +weight.value;
+  const sex = document.getElementById('sex').value;
+  const activity = +document.getElementById('activity').value;
+  const goal = document.getElementById('goal').value;
 
-  if (!age || !h || !w) return;
+  if(!age || !height || !weight) return;
 
-  var sex = document.getElementById("sex").value;
-  var activity = document.getElementById("activity").value;
-  var goal = document.getElementById("goal").value;
+  let bmr = sex === 'м'
+    ? 10*weight + 6.25*height - 5*age + 5
+    : 10*weight + 6.25*height - 5*age - 161;
 
-  var bmr = (sex === "m")
-    ? 10*w + 6.25*h - 5*age + 5
-    : 10*w + 6.25*h - 5*age - 161;
+  let tdee = bmr * [1.2,1.375,1.55,1.725,1.9][activity-1];
+  if(goal === 'похудение') tdee *= 0.85;
+  if(goal === 'набор') tdee *= 1.10;
 
-  var factors = [1.2, 1.375, 1.55, 1.725, 1.9];
-  var calories = bmr * factors[activity - 1];
+  let protein = Math.round(weight * 1.8);
+  let fat = Math.round(weight * 0.8);
+  let carbs = Math.round((tdee - (protein*4 + fat*9)) / 4);
 
-  if (goal === "cut") calories *= 0.85;
-  if (goal === "bulk") calories *= 1.1;
+  result.innerHTML = `
+    <strong>🔥 Суточная норма:</strong> ${Math.round(tdee)} ккал<br><br>
 
-  var protein = Math.round(w * 1.8);
-  var fat = Math.round(w * 0.8);
-  var carbs = Math.round((calories - protein*4 - fat*9) / 4);
+    <strong>🍗 Белки:</strong> ${protein} г<br>
+    Источники: мясо, рыба, яйца, творог, греческий йогурт<br><br>
 
-  document.getElementById("result").innerText =
-    "Калории: " + Math.round(calories) + " ккал\n\n" +
-    "Белки: " + protein + " г\n\n" +
-    "Жиры: " + fat + " г\n" +
-    "— растительные: " + Math.round(fat * 0.65) + " г\n" +
-    "— животные: " + Math.round(fat * 0.35) + " г\n\n" +
-    "Углеводы: " + carbs + " г\n" +
-    "— медленные: " + Math.round(carbs * 0.65) + " г\n" +
-    "— быстрые: " + Math.round(carbs * 0.35) + " г";
-};
+    <strong>🥑 Жиры:</strong> ${fat} г<br>
+    • Растительные: оливковое масло, орехи, авокадо<br>
+    • Животные: яйца, рыба, сливочное масло<br><br>
+
+    <strong>🍞 Углеводы:</strong> ${carbs} г<br>
+    • Медленные: рис, гречка, овсянка, макароны из твёрдых сортов<br>
+    • Быстрые: фрукты, мёд, сухофрукты
+  `;
+});
 </script>
 
 </body>
