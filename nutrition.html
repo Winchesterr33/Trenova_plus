@@ -60,7 +60,6 @@ button:hover{background:#1565c0;}
 </form>
 <div class="result" id="result"></div>
 </div>
-</main>
 <script>
 document.getElementById('calcForm').addEventListener('submit',function(e){
 e.preventDefault();
@@ -70,7 +69,6 @@ const weight=+document.getElementById('weight').value;
 const sex=document.getElementById('sex').value;
 const activity=+document.getElementById('activity').value;
 const goal=document.getElementById('goal').value;
-if(!age||!height||!weight)return;
 let bmr=(sex==='м'?10*weight+6.25*height-5*age+5:10*weight+6.25*height-5*age-161);
 let tdee=bmr*[1.2,1.375,1.55,1.725,1.9][activity-1]*(goal==='похудение'?0.85:(goal==='набор'?1.10:1));
 let protein=Math.round(weight*1.8);
