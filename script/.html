@@ -1,0 +1,27 @@
+function generatePlan() {
+  const age = document.getElementById("age").value;
+  const goal = document.getElementById("goal").value;
+  const level = document.getElementById("level").value;
+
+  let training = "";
+  let motivation = "";
+
+  if (goal === "Похудение") {
+    training = "Кардио 3–4 раза в неделю + лёгкие силовые упражнения";
+    motivation = "Регулярность важнее интенсивности. Ты справишься!";
+  } else if (goal === "Набор мышц") {
+    training = "Силовые тренировки 4 раза в неделю + белковое питание";
+    motivation = "Рост начинается с дисциплины. Продолжай!";
+  } else {
+    training = "Смешанные тренировки 2–3 раза в неделю";
+    motivation = "Поддерживать форму — значит заботиться о себе.";
+  }
+
+  document.getElementById("result").innerHTML = `
+    <h3>Ваш персональный план</h3>
+    <p><strong>Возраст:</strong> ${age}</p>
+    <p><strong>Уровень:</strong> ${level}</p>
+    <p><strong>Тренировки:</strong> ${training}</p>
+    <p><strong>Мотивация:</strong> ${motivation}</p>
+  `;
+}
