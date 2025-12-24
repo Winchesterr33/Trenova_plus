@@ -1,90 +1,51 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FitPro+ | Питание</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin:0; background:#f9f9f9; color:#333; }
-    header { background:#4CAF50; color:white; padding:20px; text-align:center; }
-    nav { text-align:center; margin:15px; }
-    nav a { color:#4CAF50; text-decoration:none; margin:0 10px; }
-    main { max-width:650px; margin:30px auto; padding:20px; background:white; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-    label { display:block; margin-top:10px; }
-    input, select { width:100%; padding:8px; border:1px solid #ccc; border-radius:5px; margin-bottom:15px; }
-    button { background:#4CAF50; color:white; border:none; padding:10px; border-radius:5px; width:100%; cursor:pointer; font-size:16px; }
-    button:hover { background:#43a047; }
-    .result { background:#e7f5e6; padding:15px; border-radius:8px; margin-top:15px; }
-    @media (max-width:600px) { main { padding:15px; } }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>FitPro+ | Питание</h1>
-  </header>
-  <nav>
-    <a href="index.html">🏠 Главная</a> | 
-    <a href="strength.html">🏋️ Сила</a>
-  </nav>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const form = document.getElementById('calcForm');
+  const resultDiv = document.getElementById('result');
 
-  <main>
-    <h2>Калькулятор калорий и БЖУ</h2>
-    <form id="calcForm">
-      <label>Возраст:</label><input type="number" id="age" required>
-      <label>Рост (см):</label><input type="number" id="height" required>
-      <label>Вес (кг):</label><input type="number" id="weight" required>
-      <label>Пол:</label>
-      <select id="sex"><option value="м">Мужской</option><option value="ж">Женский</option></select>
-      <label>Активность:</label>
-      <select id="activity">
-        <option value="1">Минимальная</option>
-        <option value="2">Низкая</option>
-        <option value="3">Средняя</option>
-        <option value="4">Высокая</option>
-        <option value="5">Очень высокая</option>
-      </select>
-      <label>Цель:</label>
-      <select id="goal">
-        <option value="поддержание">Поддержание веса</option>
-        <option value="похудение">Похудение</option>
-        <option value="набор">Набор массы</option>
-      </select>
-      <button type="submit">Рассчитать</button>
-    </form>
-    <div class="result" id="result" style="display:none;"></div>
-  </main>
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
 
-  <script>
-    document.getElementById('calcForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const age = +document.getElementById('age').value;
-      const height = +document.getElementById('height').value;
-      const weight = +document.getElementById('weight').value;
-      const sex = document.getElementById('sex').value;
-      const activity = +document.getElementById('activity').value;
-      const goal = document.getElementById('goal').value;
+    const age = Number(document.getElementById('age').value);
+    const height = Number(document.getElementById('height').value);
+    const weight = Number(document.getElementById('weight').value);
+    const sex = document.getElementById('sex').value;
+    const activity = Number(document.getElementById('activity').value);
+    const goal = document.getElementById('goal').value;
 
-      let bmr = (sex==="м")?10*weight+6.25*height-5*age+5:10*weight+6.25*height-5*age-161;
-      const tdee = bmr*[1.2,1.375,1.55,1.725,1.9][activity-1];
-      let adjustedCalories = tdee;
-      if(goal==="похудение") adjustedCalories*=0.85;
-      if(goal==="набор") adjustedCalories*=1.1;
+    if(!age || !height || !weight) return;
 
-      const protein=Math.round(weight*1.8);
-      const fat=Math.round(weight*0.8);
-      const carbs=Math.round((adjustedCalories-(protein*4+fat*9))/4);
-      const slowCarbs=Math.round(carbs*0.65);
-      const simpleCarbs=carbs-slowCarbs;
-      const plantFat=Math.round(fat*0.65);
-      const animalFat=fat-plantFat;
+    // BMR по формуле Миффлина-Сан Жеора
+    let bmr = (sex === 'м') 
+      ? 10*weight + 6.25*height - 5*age + 5
+      : 10*weight + 6.25*height - 5*age - 161;
 
-      const res=document.getElementById('result');
-      res.style.display="block";
-      res.innerHTML=`🔥 <strong>Суточная норма:</strong> ${Math.round(adjustedCalories)} ккал<br>
-        🍗 Белки: ${protein} г<br>
-        🥑 Жиры: ${fat} г (растительные: ${plantFat} г, животные: ${animalFat} г)<br>
-        🍞 Углеводы: ${carbs} г (медленные: ${slowCarbs} г, простые: ${simpleCarbs} г)`;
-    });
-  </script>
-</body>
-</html>
+    // Умножаем на коэффициент активности
+    const activityFactor = [1.2,1.375,1.55,1.725,1.9][activity-1];
+    let tdee = bmr * activityFactor;
+
+    // Корректируем под цель
+    if(goal === 'похудение') tdee *= 0.85;
+    if(goal === 'набор') tdee *= 1.10;
+
+    // Белки, жиры, углеводы
+    const protein = Math.round(weight * 1.8); // г
+    const fat = Math.round(weight * 0.8); // г
+    const carbs = Math.round((tdee - (protein*4 + fat*9))/4); // г
+
+    const slowCarbs = Math.round(carbs*0.65);
+    const simpleCarbs = carbs - slowCarbs;
+
+    const plantFat = Math.round(fat*0.65);
+    const animalFat = fat - plantFat;
+
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `
+      🔥 <strong>Суточная норма:</strong> ${Math.round(tdee)} ккал<br>
+      🍗 Белки: ${protein} г<br>
+      🥑 Жиры: ${fat} г (растительные: ${plantFat} г, животные: ${animalFat} г)<br>
+      🍞 Углеводы: ${carbs} г (медленные: ${slowCarbs} г, простые: ${simpleCarbs} г)
+    `;
+  });
+});
+</script>
